@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ATP Key="1" PlantID="1000" POProcessingTime="3" CalculateDate="20141209" CheckReplenishmentLeadTime="false" StorageLocationInspection="true" ReceiptsInPast="true" IncludeSafeStock="true" CumulativeParameter="1" FullConfirmationLogic="false" Create="true" Description="无历史数据，计算的数据无参考需求数据,累计参数设置为 1-创建和更改时确认数量的累积">
+    <ATPCalendarCollection Description="ATP工厂日历，仅列出休息日">
+        <Calendar Date="20141213"/>
+        <Calendar Date="20141214"/>
+        <Calendar Date="20141220"/>
+        <Calendar Date="20141221"/>
+        <Calendar Date="20141227"/>
+    </ATPCalendarCollection>
+    <Material MaterialID="1000" BOMBaseQuantity="1" BOMQuantity="1" PurType="E" TotalReplenishmentLeadTime="10" PlannedDeliveryTime="2" GoodsReceiptProcessingTime="2" InHouseProductionTime="2"/>
+    <ATPStockDataCollection Description="ATP计算库存数据">
+        <ATPData MaterialID="1000" Description="库存数据-1000" DetailGroup="-1" MRPElement="库存" StorageLocationID="1000" Direction="0" ReceivedRequiredQuantity="50" ConfirmedQuantity="0"/>
+        <ATPData MaterialID="1000" Description="库存数据-1001" DetailGroup="-1" MRPElement="库存" StorageLocationID="1001" Direction="0" ReceivedRequiredQuantity="100" ConfirmedQuantity="0"/>
+    </ATPStockDataCollection>
+    <ATPDataCollection Description="ATP计算的需求和供给数据，库存数据除外">
+        <ATPData MaterialID="1000" Description="PO数据" DetailGroup="10000" ReferenceDetailGroup="" Date="20141210" MRPElement="PO项目" StorageLocationID="-1" Direction="1" ReceivedRequiredQuantity="100"/>
+        <ATPData MaterialID="1000" Description="销售订单数据" DetailGroup="10001" ReferenceDetailGroup="" Date="20141212" MRPElement="订单" StorageLocationID="-1" Direction="-1" ReceivedRequiredQuantity="50" ConfirmedQuantity="50"/>
+        <ATPData MaterialID="1000" Description="销售订单数据" DetailGroup="10002" ReferenceDetailGroup="" Date="20141213" MRPElement="订单" StorageLocationID="1000" Direction="-1" ReceivedRequiredQuantity="30" ConfirmedQuantity="30"/>
+        <ATPData MaterialID="1000" Description="预留数据" DetailGroup="10003" ReferenceDetailGroup="" Date="20141213" MRPElement="MtlRes" StorageLocationID="1001" Direction="1" ReceivedRequiredQuantity="10"/>
+        <ATPData MaterialID="1000" Description="预留数据" DetailGroup="10004" ReferenceDetailGroup="" Date="20141220" MRPElement="MtlRes" StorageLocationID="1001" Direction="-1" ReceivedRequiredQuantity="20" ConfirmedQuantity="20"/>
+        <ATPData MaterialID="1000" Description="预留数据" DetailGroup="10005" ReferenceDetailGroup="" Date="20141225" MRPElement="MtlRes" StorageLocationID="-1" Direction="1" ReceivedRequiredQuantity="100" ConfirmedQuantity="100"/>
+    </ATPDataCollection>
+    <ATPScheduleDataCollection>
+        <ATPData MaterialID="1000" Description="销售订单数据" DetailGroup="20000" ReferenceDetailGroup="" Date="20141214" MRPElement="订单" StorageLocationID="1001" Direction="-1" ReceivedRequiredQuantity="200" ConfirmedQuantity="0">
+            <ATPResultCollection Description="ATP计算结果数据">
+                <Result MaterialID="1000" Type="1" Description="在请求交货日期的一次性发货" Date="20141214" ConfirmedQuantity="160"/>
+                <Result MaterialID="1000" Type="2" Description="全部交货" Date="20141225" ConfirmedQuantity="200"/>
+                <Result MaterialID="1000" Type="3" Description="发送建议" Date="20141214" ConfirmedQuantity="160"/>
+                <Result MaterialID="1000" Type="3" Description="发送建议" Date="20141225" ConfirmedQuantity="40"/>
+            </ATPResultCollection>
+        </ATPData>
+    </ATPScheduleDataCollection>
+    <Description2>&lt;![CDATA[
+		累计参数：1 创建和更改时确认数量的累积
+		--物料1000的计算结果
+		日期				MRP元素	MRP元素数据	收货\需求数量	已确认	负差	正差	累计ATP数量
+		20141209			库存				150										150
+		20141210			PO项目	10000		100								10		160
+		20141212			订单	10001		50-				50		90-				160
+		20141213			订单	10002		30-				30		40-				160
+		20141213			MtlRes	10003		10						10-				160
+		20141214(模拟数据)	订单	20000		200-
+		20141220			MtlRes	10004		20-				20		20-				160
+		20141225			MtlRes	10005		100								100		260
+		
+		存储地点1000数据------&gt;
+		20141209			StLcSt	1000		50										20
+		20141213			订单	10002		30-				30		30-				20
+		
+		存储地点1001数据------&gt;
+		20141209			StLcSt	1001		100										90
+		20141213			MtlRes	10003		10						10-				90
+		20141220			MtlRes	10004		20-				20		20-				90
+		]]&gt;</Description2>
+</ATP>
